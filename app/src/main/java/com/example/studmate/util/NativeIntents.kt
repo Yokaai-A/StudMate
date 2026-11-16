@@ -28,8 +28,18 @@ import com.example.studmate.domain.ClassFormat
 import java.io.File
 import java.io.FileOutputStream
 import java.net.URLEncoder
+import java.time.Instant
+import java.time.ZoneId
 
 object NativeIntents {
+
+    private fun safeStart(context: Context, intent: Intent) {
+        try {
+            context.startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(context, "Tidak ada aplikasi untuk membuka ini", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     fun openUrl(context: Context, url: String) {
         val fixed = if (url.startsWith("http://") || url.startsWith("https://")) url else "https://$url"
@@ -40,7 +50,69 @@ object NativeIntents {
         val u = uri.toUri()
         if (u.scheme == "content") {
             val intent = Intent(Intent.ACTION_VIEW).apply {
-                setDataAndType(u, context.contentResolver.getType(u) ?: "*
+                setDataAndType(u, context.contentResolver.getType(u) ?: "*/*")
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            safeStart(context, intent)
+        } else {
+            safeStart(context, Intent(Intent.ACTION_VIEW, u))
+        }
+    }
+
+    fun openMaps(context: Context, query: String) {
+        val encoded = URLEncoder.encode(query, "UTF-8")
+        val geo = "geo:0,0?q=$encoded".toUri()
+        val intent = Intent(Intent.ACTION_VIEW, geo)
+        try {
+            context.startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            safeStart(context, Intent(Intent.ACTION_VIEW, "https://www.google.com/maps/search/?api=1&query=$encoded".toUri()))
+        }
+    }
+
+    fun addToCalendar(context: Context, cls: ClassEntity, session: SessionEntity) {
+        val end = session.startAt + session.durationMinutes * 60_000L
+        val intent = Intent(Intent.ACTION_INSERT).apply {
+            data = CalendarContract.Events.CONTENT_URI
+            putExtra(CalendarContract.Events.TITLE, "${cls.title} • ${session.title}")
+            putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, session.startAt)
+            putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end)
+            putExtra(CalendarContract.Events.EVENT_LOCATION, if (cls.location.isNotBlank()) "${cls.location}, ${cls.university}" else cls.university)
+            putExtra(CalendarContract.Events.DESCRIPTION, session.description.ifBlank { cls.description })
+        }
+        safeStart(context, intent)
+    }
+
+    fun shareFile(context: Context, file: File, mime: String, text: String) {
+        val uri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = mime
+            putExtra(Intent.EXTRA_STREAM, uri)
+            putExtra(Intent.EXTRA_TEXT, text)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        safeStart(context, Intent.createChooser(intent, "Bagikan via"))
+    }
+
+    fun shareDir(context: Context): File {
+        val dir = File(context.cacheDir, "shared")
+        if (!dir.exists()) dir.mkdirs()
+        return dir
+    }
+
+    fun linkedInCertificateUrl(certName: String, certId: String, issuedAt: Long): String {
+        val issued = Instant.ofEpochMilli(issuedAt).atZone(ZoneId.systemDefault()).toLocalDate()
+        val params = listOf(
+            "startTask" to "CERTIFICATION_NAME",
+            "name" to certName,
+            "organizationName" to "StudMate",
+            "certId" to certId,
+            "issueYear" to issued.year.toString(),
+            "issueMonth" to issued.monthValue.toString(),
+            "certUrl" to "https://${AppConfig.DEEP_LINK_HOST}/cert/$certId",
+        ).joinToString("&") { (k, v) -> "$k=${URLEncoder.encode(v, "UTF-8")}" }
+        return "https://www.linkedin.com/profile/add?$params"
+    }
 
     data class PromoInfo(
         val classId: String,
