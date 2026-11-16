@@ -1,9 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Nexiera" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.StudMate" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.Nexiera" parent="Base.Theme.Nexiera" />
+    <style name="Theme.StudMate" parent="Base.Theme.StudMate" />
 </resources>

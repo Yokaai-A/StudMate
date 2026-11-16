@@ -22,6 +22,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Nexiera"
+rootProject.name = "StudMate"
 include(":app")
  

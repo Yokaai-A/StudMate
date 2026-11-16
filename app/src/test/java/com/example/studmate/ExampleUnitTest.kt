@@ -1,4 +1,4 @@
-package com.example.nexiera
+package com.example.studmate
 
 import org.junit.Test
 
