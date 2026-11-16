@@ -26,7 +26,7 @@ class CatalogRepository(
     private val users: UserDao,
     scope: CoroutineScope,
 ) {
-    /** Semua kelas (termasuk draft) beserta agregat kuota, rating, dan durasi. */
+
     val allSummaries: Flow<List<ClassSummary>> = combine(
         classes.observeAll(), users.observeAll(), enrollments.observeCounts(),
         community.observeRatings(), classes.observeSessionAgg(),
@@ -48,7 +48,7 @@ class CatalogRepository(
         }
     }.shareIn(scope, SharingStarted.WhileSubscribed(5_000), replay = 1)
 
-    /** Kelas yang tampil di marketplace (published & belum lewat/selesai). */
+
     val published: Flow<List<ClassSummary>> = allSummaries.map { list ->
         list.filter { it.cls.status == ClassStatus.PUBLISHED }
     }

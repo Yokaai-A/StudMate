@@ -20,6 +20,6 @@ object QrUtils {
 
     fun ticketPayload(ticketCode: String) = "studmate://ticket/$ticketCode"
 
-    /** Ambil kode tiket dari hasil scan (mendukung payload URI maupun kode polos). */
+
     fun parseTicket(raw: String): String = raw.trim().substringAfter("studmate://ticket/").trim()
 }

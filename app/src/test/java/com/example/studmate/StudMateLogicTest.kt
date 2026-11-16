@@ -62,11 +62,9 @@ class StudMateLogicTest {
             earlyBirdUntil = now + 1000L,
         )
 
-        // Sebelum batas early bird
         assertTrue(clsWithEb.isEarlyBird(now))
         assertEquals(70_000, clsWithEb.priceAt(now))
 
-        // Sesudah batas early bird
         assertFalse(clsWithEb.isEarlyBird(now + 2000L))
         assertEquals(100_000, clsWithEb.priceAt(now + 2000L))
     }
@@ -80,7 +78,6 @@ class StudMateLogicTest {
             categories = setOf(Category.TECH, Category.BUSINESS),
             price = PriceFilter.FREE,
         )
-        // 2 categories + 1 price filter = 3 active
         assertEquals(3, customFilter.activeCount)
     }
 
@@ -108,18 +105,15 @@ class StudMateLogicTest {
 
     @Test
     fun testStrictCourseNamingPolicy() {
-        // Valid courses
         assertTrue(Catalog.validateCourseTitle("Struktur Data").first)
         assertTrue(Catalog.validateCourseTitle("Kalkulus Dasar").first)
         assertTrue(Catalog.validateCourseTitle("Basis Data").first)
         assertTrue(Catalog.validateCourseTitle("Statistika dan Probabilitas").first)
 
-        // Invalid: containing course codes
         assertFalse(Catalog.validateCourseTitle("[IF2110] Struktur Data").first)
         assertFalse(Catalog.validateCourseTitle("CS101 Algoritma").first)
         assertFalse(Catalog.validateCourseTitle("Kalkulus MTH-102").first)
 
-        // Invalid: containing promotional buzzwords / clickbait
         assertFalse(Catalog.validateCourseTitle("Bootcamp Struktur Data Pemula").first)
         assertFalse(Catalog.validateCourseTitle("Kelas Kilat Kalkulus Dasar Auto A").first)
         assertFalse(Catalog.validateCourseTitle("Mastering Basis Data").first)
@@ -128,7 +122,7 @@ class StudMateLogicTest {
 
     @Test
     fun testFormatDayTime() {
-        val millis = 1731920400000L // Contoh timestamp
+        val millis = 1731920400000L
         val formatted = formatDayTime(millis)
         assertTrue(formatted.contains("WIB"))
     }

@@ -50,7 +50,7 @@ class OrganizerRepository(
     private val users = db.userDao()
     private val wallet = db.walletDao()
 
-    /** Mengamati kelas yang diselenggarakan oleh tutor/organisasi (termasuk draft). */
+
     fun observeMyClasses(organizerId: String): Flow<List<ClassSummary>> =
         catalog.allSummaries.combine(wallet.observeManagedOrgIds(organizerId)) { list, managedIds ->
             val allIds = setOf(organizerId) + managedIds.toSet()
@@ -74,7 +74,7 @@ class OrganizerRepository(
         }
     }
 
-    /** Mencatat kehadiran peserta via scan QR atau input kode tiket. */
+
     suspend fun checkInByTicket(
         classId: String,
         sessionId: String,
@@ -89,7 +89,7 @@ class OrganizerRepository(
         val currentAtt = enrollments.attendance(e.id)
         if (currentAtt.any { it.sessionId == sessionId }) {
             val user = users.get(e.userId)
-            return@runCatching Pair(user, e) // Sudah tercatat hadir
+            return@runCatching Pair(user, e)
         }
         enrollments.insertAttendance(
             AttendanceEntity(
@@ -113,7 +113,7 @@ class OrganizerRepository(
         Pair(user, e)
     }
 
-    /** Toggle kehadiran manual peserta per sesi. */
+
     suspend fun toggleAttendance(enrollmentId: String, sessionId: String, attended: Boolean) {
         if (attended) {
             enrollments.insertAttendance(
@@ -129,7 +129,7 @@ class OrganizerRepository(
         }
     }
 
-    /** Simpan kelas (Draft atau Publish) beserta daftar sesi pertemuannya. */
+
     suspend fun saveClass(
         cls: ClassEntity,
         sessions: List<SessionEntity>,
@@ -170,22 +170,16 @@ class OrganizerRepository(
         classes.delete(classId)
     }
 
-    /**
-     * Tandai sesi selesai.
-     * Jika semua sesi sudah selesai, dana pendaftaran yang tertahan di Escrow (HELD)
-     * otomatis diteruskan menjadi RELEASED ke saldo organizer!
-     */
+
     suspend fun setSessionDone(classId: String, sessionId: String, done: Boolean) = db.withTransaction {
         classes.setSessionDone(sessionId, done)
         val allSessions = classes.sessions(classId)
         val allDone = allSessions.isNotEmpty() && allSessions.all { it.isDone }
         if (allDone) {
-            // Update status kelas ke COMPLETED
             val cls = classes.get(classId)
             if (cls != null && cls.status == ClassStatus.PUBLISHED) {
                 classes.upsert(cls.copy(status = ClassStatus.COMPLETED))
             }
-            // Release dana escrow
             val ens = enrollments.byClass(classId)
             ens.forEach { e ->
                 if (e.paymentStatus == PaymentStatus.HELD) {
@@ -211,7 +205,7 @@ class OrganizerRepository(
         }
     }
 
-    /** Kirim pengumuman penting yang langsung menjadi notifikasi ke seluruh peserta kelas. */
+
     suspend fun broadcastAnnouncement(
         classId: String,
         title: String,
@@ -266,7 +260,7 @@ class OrganizerRepository(
 
     suspend fun deleteMaterial(id: String) = community.deleteMaterial(id)
 
-    /** Menghitung rangkuman saldo dompet organizer & escrow. */
+
     fun observeWallet(organizerId: String): Flow<WalletSummary> = combine(
         enrollments.observeAll(),
         classes.observeAll(),
@@ -344,7 +338,7 @@ class OrganizerRepository(
 
     fun observePayouts(organizerId: String): Flow<List<PayoutEntity>> = wallet.observePayouts(organizerId)
 
-    /* -------- Manajemen Admin Organisasi/Komunitas -------- */
+
     fun observeOrgAdmins(organizerId: String): Flow<List<OrgAdminEntity>> = wallet.observeAdmins(organizerId)
 
     suspend fun addOrgAdmin(organizerId: String, email: String): Result<Unit> = runCatching {

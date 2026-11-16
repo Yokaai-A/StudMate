@@ -83,11 +83,9 @@ class StudMateApp : Application() {
             modules(appModule)
         }
 
-        // Seed data simulasi & pastikan default demo user aktif bila baru pertama buka
         CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
             SeedData.populateIfEmpty(db)
             if (session.currentUserIdNow() == null) {
-                // Set default demo learner (Rian Pratama)
                 session.setCurrentUser(SeedData.DEMO_LEARNER_ID)
             }
         }

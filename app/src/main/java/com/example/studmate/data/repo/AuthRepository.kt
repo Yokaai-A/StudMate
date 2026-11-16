@@ -46,7 +46,7 @@ class AuthRepository(
         user
     }
 
-    /** Dipanggil setelah Google ID token diterima dari Credential Manager. */
+
     suspend fun signInWithGoogle(email: String, name: String, photoUrl: String?): Result<UserEntity> = runCatching {
         val mail = email.trim().lowercase()
         val existing = users.byEmail(mail)
@@ -86,9 +86,9 @@ class AuthRepository(
         users.upsert(transform(u))
     }
 
-    /* -------- Campus Verification -------- */
 
-    /** Mengirim kode OTP ke email kampus (.ac.id). Mode lokal: kode dikirim lewat notifikasi. */
+
+
     suspend fun requestCampusEmailCode(userId: String, campusEmail: String): Result<Unit> = runCatching {
         val mail = campusEmail.trim().lowercase()
         require(EMAIL_REGEX.matches(mail)) { "Format email tidak valid" }
@@ -109,10 +109,7 @@ class AuthRepository(
         notifier.notify(listOf(userId), "Akun terverifikasi ✅", "Email kampus $mail berhasil diverifikasi. Badge Verified Campus aktif.", type = "VERIFY")
     }
 
-    /**
-     * Unggah foto KTM. Pada versi produksi foto ditinjau tim moderasi; versi lokal
-     * langsung menyetujui setelah dokumen tersimpan.
-     */
+
     suspend fun submitKtm(userId: String, uri: String) {
         update(userId) { it.copy(verificationStatus = VerificationStatus.PENDING, verificationMethod = "KTM", ktmUri = uri) }
         update(userId) { it.copy(verificationStatus = VerificationStatus.VERIFIED) }

@@ -102,7 +102,6 @@ fun DiscoverScreen(
             .background(MaterialTheme.colorScheme.background),
         contentPadding = PaddingValues(bottom = 90.dp),
     ) {
-        // 1. Top Header Area (sesuai blueprint wireframe)
         item {
             Column(
                 modifier = Modifier
@@ -110,7 +109,6 @@ fun DiscoverScreen(
                     .background(MaterialTheme.colorScheme.surface)
                     .padding(horizontal = 16.dp, vertical = 14.dp)
             ) {
-                // Header Bar: StudMate + Subtitle kampus & notif icon
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -159,7 +157,6 @@ fun DiscoverScreen(
 
                 Spacer(modifier = Modifier.height(14.dp))
 
-                // Kolom Pencarian: [ 🔍 Cari nama mata kuliah... ]
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
@@ -224,7 +221,6 @@ fun DiscoverScreen(
 
                 Spacer(modifier = Modifier.height(14.dp))
 
-                // Cakupan Radar: ( ● Kampus Saya )  ( ○ Seluruh Indonesia )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
@@ -238,7 +234,6 @@ fun DiscoverScreen(
                     )
                     Spacer(modifier = Modifier.width(10.dp))
 
-                    // Opsi 1: Kampus Saya
                     Surface(
                         shape = RoundedCornerShape(16.dp),
                         color = if (radarLocal) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
@@ -270,7 +265,6 @@ fun DiscoverScreen(
 
                     Spacer(modifier = Modifier.width(8.dp))
 
-                    // Opsi 2: Seluruh Indonesia
                     Surface(
                         shape = RoundedCornerShape(16.dp),
                         color = if (!radarLocal) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
@@ -303,7 +297,6 @@ fun DiscoverScreen(
             }
         }
 
-        // 2. Quick Filter Bar: [Semua] [Tatap Muka] [Online] [Hari Ini]
         item {
             Row(
                 modifier = Modifier
@@ -369,7 +362,6 @@ fun DiscoverScreen(
             }
         }
 
-        // 3. Spotlight: "Tutor Baru di Kampusmu" (Fair Tutor Discovery)
         if (risingMentors.isNotEmpty() && filterState.query.isBlank()) {
             item {
                 Column(modifier = Modifier.padding(vertical = 6.dp)) {
@@ -400,7 +392,6 @@ fun DiscoverScreen(
             }
         }
 
-        // 4. Section Title: "Mata Kuliah Tersedia" & Tombol "Bandingkan"
         item {
             Row(
                 modifier = Modifier
@@ -447,7 +438,6 @@ fun DiscoverScreen(
             }
         }
 
-        // 5. Classes List
         if (classes.isEmpty()) {
             item {
                 Box(

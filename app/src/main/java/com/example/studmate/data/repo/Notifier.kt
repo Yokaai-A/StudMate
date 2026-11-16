@@ -7,11 +7,6 @@ import com.example.studmate.data.prefs.SessionStore
 import com.example.studmate.notif.NotificationHelper
 import com.example.studmate.util.newId
 
-/**
- * Mengirim notifikasi ke pengguna: disimpan di inbox (Room) dan ditampilkan sebagai
- * push notification bila penerima adalah akun yang sedang login di perangkat ini.
- * Saat backend tersedia, titik ini yang diganti dengan pengiriman FCM dari server.
- */
 class Notifier(
     private val context: Context,
     private val community: CommunityDao,

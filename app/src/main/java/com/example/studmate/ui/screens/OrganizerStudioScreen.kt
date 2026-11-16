@@ -87,14 +87,12 @@ fun OrganizerStudioScreen(
     val wallet by viewModel.walletSummary.collectAsState()
     val uiState by viewModel.uiState.collectAsState()
 
-    var selectedTab by remember { mutableIntStateOf(0) } // 0: Aktif, 1: Draft, 2: Selesai
+    var selectedTab by remember { mutableIntStateOf(0) }
 
-    // Dialog state untuk Pengumuman Broadcast
     var announcementClassId by remember { mutableStateOf<String?>(null) }
     var announcementTitle by remember { mutableStateOf("") }
     var announcementBody by remember { mutableStateOf("") }
 
-    // Dialog state untuk Tambah Materi
     var materialClassId by remember { mutableStateOf<String?>(null) }
     var materialTitle by remember { mutableStateOf("") }
     var materialType by remember { mutableStateOf(MaterialType.SLIDE) }
@@ -141,7 +139,6 @@ fun OrganizerStudioScreen(
                 .padding(padding),
             contentPadding = PaddingValues(bottom = 90.dp),
         ) {
-            // 1. Profil & Metrik Organizer
             item {
                 Card(
                     modifier = Modifier
@@ -168,7 +165,6 @@ fun OrganizerStudioScreen(
 
                         Spacer(modifier = Modifier.height(14.dp))
 
-                        // Metrik 3 Kolom
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
@@ -180,7 +176,6 @@ fun OrganizerStudioScreen(
 
                         Spacer(modifier = Modifier.height(14.dp))
 
-                        // Aksi Cepat Dompet
                         Button(
                             onClick = onOpenWallet,
                             shape = RoundedCornerShape(10.dp),
@@ -195,7 +190,6 @@ fun OrganizerStudioScreen(
                 }
             }
 
-            // 2. Tab Filter Status Kelas
             item {
                 TabRow(selectedTabIndex = selectedTab) {
                     Tab(selected = selectedTab == 0, onClick = { selectedTab = 0 }, text = { Text("Aktif (${myClasses.count { it.cls.status == ClassStatus.PUBLISHED }})") })
@@ -204,7 +198,6 @@ fun OrganizerStudioScreen(
                 }
             }
 
-            // 3. Daftar Kelas Kelolaan
             if (filteredClasses.isEmpty()) {
                 item {
                     Box(
@@ -240,7 +233,6 @@ fun OrganizerStudioScreen(
             }
         }
 
-        // Dialog Siarkan Pengumuman (Broadcast)
         if (announcementClassId != null) {
             AlertDialog(
                 onDismissRequest = { announcementClassId = null },
@@ -282,7 +274,6 @@ fun OrganizerStudioScreen(
             )
         }
 
-        // Dialog Tambah Materi
         if (materialClassId != null) {
             AlertDialog(
                 onDismissRequest = { materialClassId = null },
@@ -378,7 +369,6 @@ private fun OrganizerClassCard(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Baris Tombol Manajemen
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),

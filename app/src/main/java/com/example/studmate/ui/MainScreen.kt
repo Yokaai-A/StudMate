@@ -97,12 +97,10 @@ fun MainScreen(
     var currentLearnerTab by remember { mutableStateOf(LearnerTab.BERANDA) }
     var currentOrganizerTab by remember { mutableStateOf(OrganizerTab.STUDIO) }
 
-    // Update state compareViewModel saat compareList berubah
     LaunchedEffect(compareList) {
         compareViewModel.setComparedIds(compareList)
     }
 
-    // Handle deep link
     LaunchedEffect(initialDeepLink) {
         if (initialDeepLink != null) {
             val scheme = initialDeepLink.scheme
@@ -114,7 +112,7 @@ fun MainScreen(
                     "class" -> path.firstOrNull()?.let { navController.navigate("class_detail/$it") }
                     "hub" -> path.firstOrNull()?.let { navController.navigate("class_hub/$it") }
                     "manage" -> path.firstOrNull()?.let { navController.navigate("attendance/$it") }
-                    "ticket" -> path.firstOrNull()?.let { /* handled via scanner */ }
+                    "ticket" -> path.firstOrNull()?.let {  }
                 }
             } else if (host == "studmate.app") {
                 if (path.size >= 2 && path[0] == "class") {
@@ -155,7 +153,6 @@ fun MainScreen(
                 bottomBar = {
                     NavigationBar {
                         if (!isOrganizerMode) {
-                            // Bottom Nav Mode Belajar (Learner)
                             NavigationBarItem(
                                 selected = currentLearnerTab == LearnerTab.BERANDA,
                                 onClick = { currentLearnerTab = LearnerTab.BERANDA },
@@ -201,7 +198,6 @@ fun MainScreen(
                                 label = { Text(LearnerTab.AKUN.title) },
                             )
                         } else {
-                            // Bottom Nav Mode Mengajar (Organizer / Tutor Studio)
                             NavigationBarItem(
                                 selected = currentOrganizerTab == OrganizerTab.STUDIO,
                                 onClick = { currentOrganizerTab = OrganizerTab.STUDIO },

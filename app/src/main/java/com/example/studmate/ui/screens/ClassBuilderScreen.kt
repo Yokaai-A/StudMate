@@ -82,7 +82,6 @@ fun ClassBuilderScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    // Navigasi setelah tersimpan
     LaunchedEffect(uiState.savedClassId) {
         if (uiState.savedClassId != null) {
             onSaved()
@@ -106,7 +105,6 @@ fun ClassBuilderScreen(
                 .fillMaxSize()
                 .padding(padding),
         ) {
-            // Indikator 4 Langkah
             StepIndicatorRow(currentStep = uiState.currentStep)
 
             Column(
@@ -132,7 +130,6 @@ fun ClassBuilderScreen(
                 }
             }
 
-            // Tombol Navigasi Bawah
             Surface(
                 color = MaterialTheme.colorScheme.surface,
                 tonalElevation = 4.dp,
@@ -246,7 +243,6 @@ private fun Step1BasicInfo(viewModel: ClassBuilderViewModel) {
 
     Spacer(modifier = Modifier.height(14.dp))
 
-    // Pilihan Mata Kuliah Standar (ExposedDropdownMenuBox)
     ExposedDropdownMenuBox(
         expanded = courseDropdownExpanded,
         onExpandedChange = { courseDropdownExpanded = it },
@@ -283,7 +279,6 @@ private fun Step1BasicInfo(viewModel: ClassBuilderViewModel) {
         }
     }
 
-    // Peringatan Strict Course Naming Policy jika melanggar
     if (uiState.titleWarning != null) {
         Spacer(modifier = Modifier.height(4.dp))
         Text(
@@ -295,7 +290,6 @@ private fun Step1BasicInfo(viewModel: ClassBuilderViewModel) {
 
     Spacer(modifier = Modifier.height(12.dp))
 
-    // Pokok Bahasan / Topik Spesifik
     OutlinedTextField(
         value = topicSummary,
         onValueChange = { topicSummary = it; sync() },
@@ -307,7 +301,6 @@ private fun Step1BasicInfo(viewModel: ClassBuilderViewModel) {
 
     Spacer(modifier = Modifier.height(12.dp))
 
-    // Bukti Penguasaan & Nilai Mata Kuliah
     Text("Nilai Mata Kuliah Anda (Bukti Penguasaan):", style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold))
     Row(
         modifier = Modifier.padding(vertical = 4.dp),
@@ -369,7 +362,6 @@ private fun Step1BasicInfo(viewModel: ClassBuilderViewModel) {
 
     Spacer(modifier = Modifier.height(14.dp))
 
-    // Format Kelas
     Text("Format Kelas:", style = MaterialTheme.typography.labelMedium)
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         ClassFormat.entries.forEach { f ->
@@ -403,7 +395,6 @@ private fun Step1BasicInfo(viewModel: ClassBuilderViewModel) {
         Spacer(modifier = Modifier.height(10.dp))
     }
 
-    // Kategori
     Text("Kategori:", style = MaterialTheme.typography.labelMedium)
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -547,7 +538,6 @@ private fun Step3TicketQuota(viewModel: ClassBuilderViewModel) {
     Text("Langkah 3: Tiket, Kuota & Sertifikat", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold))
     Spacer(modifier = Modifier.height(14.dp))
 
-    // Switch Gratis / Berbayar
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -593,7 +583,6 @@ private fun Step3TicketQuota(viewModel: ClassBuilderViewModel) {
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    // Kuota Peserta
     Text("Batas Kuota Peserta: $quota orang", fontWeight = FontWeight.SemiBold)
     Slider(
         value = quota.toFloat(),
@@ -603,7 +592,6 @@ private fun Step3TicketQuota(viewModel: ClassBuilderViewModel) {
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    // E-Sertifikat
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -627,7 +615,6 @@ private fun Step4PreviewPublish(viewModel: ClassBuilderViewModel) {
 
     Spacer(modifier = Modifier.height(14.dp))
 
-    // Card Preview
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),

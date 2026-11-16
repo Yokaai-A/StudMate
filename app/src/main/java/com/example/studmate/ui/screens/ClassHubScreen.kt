@@ -99,13 +99,11 @@ fun ClassHubScreen(
     val uiState by viewModel.uiState.collectAsState()
     val currentUser by viewModel.currentUser.collectAsState()
 
-    var selectedTab by remember { mutableIntStateOf(0) } // 0: Materi, 1: Pengumuman, 2: Diskusi, 3: Sertifikat & Ulasan
+    var selectedTab by remember { mutableIntStateOf(0) }
     var showTicketModal by remember { mutableStateOf(false) }
 
-    // State form diskusi
     var newPostContent by remember { mutableStateOf("") }
 
-    // State form ulasan
     var reviewRating by remember { mutableIntStateOf(5) }
     var reviewComment by remember { mutableStateOf("") }
 
@@ -141,7 +139,6 @@ fun ClassHubScreen(
                     .fillMaxSize()
                     .padding(padding),
             ) {
-                // Sesi Mendatang & Aksi 1-Klik
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -195,7 +192,6 @@ fun ClassHubScreen(
                             Spacer(modifier = Modifier.height(12.dp))
 
                             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                // 1-Klik Masuk Sesi (Meet/Zoom jika online, Maps jika offline)
                                 Button(
                                     onClick = {
                                         if (cls.format == ClassFormat.ONLINE && cls.meetingLink.isNotBlank()) {
@@ -217,7 +213,6 @@ fun ClassHubScreen(
                                     Text(if (cls.format == ClassFormat.ONLINE) "Gabung Sesi" else "Buka Maps")
                                 }
 
-                                // Simpan ke Kalender Android (Native Intent)
                                 OutlinedButton(
                                     onClick = {
                                         NativeIntents.addToCalendar(context, cls, nextSession)
@@ -238,7 +233,6 @@ fun ClassHubScreen(
                     }
                 }
 
-                // Status Kehadiran Ringkas
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -262,7 +256,6 @@ fun ClassHubScreen(
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                // Tab Hub Kelas
                 TabRow(selectedTabIndex = selectedTab) {
                     Tab(selected = selectedTab == 0, onClick = { selectedTab = 0 }, text = { Text("Materi (${materials.size})") })
                     Tab(selected = selectedTab == 1, onClick = { selectedTab = 1 }, text = { Text("Pengumuman (${announcements.size})") })
@@ -270,10 +263,8 @@ fun ClassHubScreen(
                     Tab(selected = selectedTab == 3, onClick = { selectedTab = 3 }, text = { Text("Sertifikat & Ulasan") })
                 }
 
-                // Konten Tab
                 when (selectedTab) {
                     0 -> {
-                        // Tab Materi
                         if (materials.isEmpty()) {
                             EmptyTabPlaceholder("Belum ada materi dibagikan tutor.")
                         } else {
@@ -316,7 +307,6 @@ fun ClassHubScreen(
                         }
                     }
                     1 -> {
-                        // Tab Pengumuman
                         if (announcements.isEmpty()) {
                             EmptyTabPlaceholder("Belum ada pengumuman disiarkan.")
                         } else {
@@ -346,7 +336,6 @@ fun ClassHubScreen(
                         }
                     }
                     2 -> {
-                        // Tab Diskusi
                         Column(modifier = Modifier.fillMaxSize()) {
                             LazyColumn(modifier = Modifier.weight(1f)) {
                                 if (posts.isEmpty()) {
@@ -380,7 +369,6 @@ fun ClassHubScreen(
                                 }
                             }
 
-                            // Form Kirim Diskusi
                             Surface(
                                 color = MaterialTheme.colorScheme.surface,
                                 tonalElevation = 4.dp,
@@ -416,14 +404,12 @@ fun ClassHubScreen(
                         }
                     }
                     3 -> {
-                        // Tab Sertifikat & Ulasan
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .verticalScroll(rememberScrollState())
                                 .padding(16.dp),
                         ) {
-                            // Bagian E-Sertifikat
                             Text("E-Sertifikat Kelulusan", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold))
                             Spacer(modifier = Modifier.height(8.dp))
 
@@ -506,7 +492,6 @@ fun ClassHubScreen(
 
                             Spacer(modifier = Modifier.height(24.dp))
 
-                            // Bagian Beri Ulasan
                             Text("Beri Ulasan Kelas", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold))
                             Text("Hanya peserta yang hadir minimal 1 sesi yang dapat memberikan ulasan.", style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.outline))
                             Spacer(modifier = Modifier.height(10.dp))
@@ -518,7 +503,6 @@ fun ClassHubScreen(
                                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
                             ) {
                                 Column(modifier = Modifier.padding(16.dp)) {
-                                    // Pemilihan Bintang (1-5)
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
                                         horizontalArrangement = Arrangement.Center,
@@ -568,7 +552,6 @@ fun ClassHubScreen(
             }
         }
 
-        // Modal Tiket QR Presensi
         if (showTicketModal && enrollment != null && cls != null) {
             AlertDialog(
                 onDismissRequest = { showTicketModal = false },

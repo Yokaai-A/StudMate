@@ -4,7 +4,6 @@ import com.example.studmate.data.local.ClassEntity
 import com.example.studmate.data.local.EnrollmentEntity
 import com.example.studmate.data.local.UserEntity
 
-/** Ringkasan kelas untuk kartu feed, pencarian, dan perbandingan. */
 data class ClassSummary(
     val cls: ClassEntity,
     val organizer: UserEntity?,
@@ -26,10 +25,10 @@ data class MentorStats(
     val reviewCount: Int,
     val firstClassAt: Long?,
 ) {
-    /** Penyelenggara baru: maksimal 2 kelas atau bergabung < 60 hari. */
+
     val isNew: Boolean
         get() = classCount <= 2 || System.currentTimeMillis() - user.joinedAt < 60L * 24 * 3600 * 1000
-    /** Skor leaderboard mentor kampus. */
+
     val score: Double get() = studentCount * 2.0 + avgRating * reviewCount * 3.0 + classCount * 5.0
 }
 
@@ -86,7 +85,7 @@ object Catalog {
         "Sastra Inggris", "Sastra Jepang", "Pendidikan",
     )
 
-    /** Daftar Mata Kuliah Standar Perguruan Tinggi di Indonesia (Strict Naming). */
+
     val standardCourses = listOf(
         "Struktur Data",
         "Kalkulus Dasar",
@@ -121,16 +120,14 @@ object Catalog {
         "Matematika Diskrit", "Sistem Operasi", "Jaringan Komputer", "Fisika Dasar",
     )
 
-    /** Validasi Strict Course Naming Policy */
+
     fun validateCourseTitle(title: String): Pair<Boolean, String?> {
         val trimmed = title.trim()
         if (trimmed.isBlank()) return false to "Nama mata kuliah tidak boleh kosong"
-        // Cek kode mata kuliah (misal: IF-201, CS101, MTH 102)
         val codeRegex = Regex("""\b[A-Za-z]{2,4}[-\s]?[0-9]{2,4}\b""")
         if (codeRegex.containsMatchIn(trimmed)) {
             return false to "Dilarang menyertakan kode mata kuliah (misal: IF-201). Gunakan nama murni seperti 'Struktur Data'."
         }
-        // Cek kata-kata buzzword / clickbait
         val buzzwords = listOf("bootcamp", "kilat", "jago", "bimbel", "mastering", "auto a", "trik", "cepat", "rahasia", "garansi", "tembus")
         val lower = trimmed.lowercase()
         buzzwords.firstOrNull { lower.contains(it) }?.let {
@@ -139,7 +136,7 @@ object Catalog {
         return true to null
     }
 
-    /** Pemetaan minat ke kategori untuk personalisasi feed. */
+
     val interestCategory = mapOf(
         "Struktur Data" to Category.TECH,
         "Kalkulus Dasar" to Category.ACADEMIC,

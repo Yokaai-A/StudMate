@@ -67,7 +67,7 @@ fun AuthScreen(
     val uiState by viewModel.uiState.collectAsState()
     val currentUser by viewModel.currentUser.collectAsState()
 
-    var selectedTab by remember { mutableIntStateOf(0) } // 0: Masuk, 1: Daftar
+    var selectedTab by remember { mutableIntStateOf(0) }
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -79,7 +79,6 @@ fun AuthScreen(
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        // Hero Header
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -130,7 +129,6 @@ fun AuthScreen(
             }
         }
 
-        // Form Card
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -220,7 +218,6 @@ fun AuthScreen(
 
                 Spacer(modifier = Modifier.height(14.dp))
 
-                // Simulasi Google Sign-In
                 OutlinedButton(
                     onClick = { viewModel.signInGoogleSimulated() },
                     modifier = Modifier
@@ -235,7 +232,6 @@ fun AuthScreen(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // Demo User Switcher Card
         Card(
             modifier = Modifier
                 .fillMaxWidth()

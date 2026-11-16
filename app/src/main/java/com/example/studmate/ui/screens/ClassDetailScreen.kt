@@ -111,7 +111,7 @@ fun ClassDetailScreen(
     val uiState by viewModel.uiState.collectAsState()
     val currentUser by viewModel.currentUser.collectAsState()
 
-    var selectedTab by remember { mutableIntStateOf(0) } // 0: Silabus, 1: Detail & Benefit, 2: Ulasan
+    var selectedTab by remember { mutableIntStateOf(0) }
     var showPaymentSheet by remember { mutableStateOf(false) }
 
     val cls = summary?.cls
@@ -134,7 +134,6 @@ fun ClassDetailScreen(
             )
         },
         bottomBar = {
-            // Action Bar di Bawah
             if (cls != null) {
                 Surface(
                     color = MaterialTheme.colorScheme.surface,
@@ -175,7 +174,6 @@ fun ClassDetailScreen(
                             }
                         }
 
-                        // Tombol Aksi
                         if (enrollment != null && enrollment?.status == EnrollmentStatus.ACTIVE) {
                             Button(
                                 onClick = { onOpenHub(cls.id) },
@@ -227,7 +225,6 @@ fun ClassDetailScreen(
                     .fillMaxSize()
                     .padding(padding),
             ) {
-                // 1. Hero Cover Banner
                 item {
                     Box(
                         modifier = Modifier
@@ -250,7 +247,6 @@ fun ClassDetailScreen(
                     }
                 }
 
-                // 2. Info Utama Kelas
                 item {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(
@@ -287,7 +283,6 @@ fun ClassDetailScreen(
 
                         Spacer(modifier = Modifier.height(14.dp))
 
-                        // Kartu Profil Tutor dengan Academic Credibility Badges
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -344,7 +339,6 @@ fun ClassDetailScreen(
 
                                 Spacer(modifier = Modifier.height(8.dp))
 
-                                // Academic Credibility Badges
                                 Row(
                                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                                     verticalAlignment = Alignment.CenterVertically,
@@ -361,7 +355,6 @@ fun ClassDetailScreen(
 
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        // Kuota Bar
                         val s = summary!!
                         val enrolledRatio = if (cls.quota > 0) s.enrolled.toFloat() / cls.quota else 0f
                         Row(
@@ -391,7 +384,6 @@ fun ClassDetailScreen(
                     }
                 }
 
-                // 3. Tab Navigasi
                 item {
                     TabRow(selectedTabIndex = selectedTab) {
                         Tab(
@@ -412,16 +404,13 @@ fun ClassDetailScreen(
                     }
                 }
 
-                // 4. Konten Tab
                 when (selectedTab) {
                     0 -> {
-                        // Tab Silabus
                         items(sessions) { sess ->
                             SessionItemRow(session = sess)
                         }
                     }
                     1 -> {
-                        // Tab Tentang & Benefit
                         item {
                             Column(modifier = Modifier.padding(16.dp)) {
                                 Text("Deskripsi Kelas", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold))
@@ -430,7 +419,6 @@ fun ClassDetailScreen(
 
                                 Spacer(modifier = Modifier.height(18.dp))
 
-                                // Escrow Explainer
                                 Card(
                                     colors = CardDefaults.cardColors(containerColor = Color(0xFFECFDF5)),
                                     shape = RoundedCornerShape(12.dp),
@@ -471,7 +459,6 @@ fun ClassDetailScreen(
                         }
                     }
                     2 -> {
-                        // Tab Ulasan
                         if (reviews.isEmpty()) {
                             item {
                                 Box(
@@ -511,7 +498,6 @@ fun ClassDetailScreen(
             }
         }
 
-        // Modal Pembayaran Escrow (Simulasi Payment Gateway)
         if (showPaymentSheet && cls != null) {
             PaymentBottomSheet(
                 cls = cls,
@@ -608,7 +594,6 @@ private fun PaymentBottomSheet(
 
             Spacer(modifier = Modifier.height(14.dp))
 
-            // Rincian Peserta
             Card(
                 shape = RoundedCornerShape(12.dp),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
@@ -623,7 +608,6 @@ private fun PaymentBottomSheet(
 
             Spacer(modifier = Modifier.height(14.dp))
 
-            // Metode Pembayaran
             Text("Pilih Metode Pembayaran", style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold))
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -644,7 +628,6 @@ private fun PaymentBottomSheet(
                 }
             }
 
-            // Jika QRIS dipilih, tampilkan preview QR dinamis simulasi
             if (selectedMethod == PaymentMethod.QRIS) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Card(

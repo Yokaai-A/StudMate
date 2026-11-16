@@ -96,7 +96,6 @@ class ClassBuilderViewModel(
                     )
                 }
             } else {
-                // Inisialisasi default sesi pertama
                 val now = System.currentTimeMillis()
                 _uiState.value = _uiState.value.copy(
                     university = user?.university ?: "Universitas Indonesia",

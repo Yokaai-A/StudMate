@@ -201,7 +201,6 @@ private fun LearningCard(
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // Jadwal berikutnya atau riwayat kehadiran
             if (item.nextSessionAt != null) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(Icons.Default.Event, contentDescription = null, modifier = Modifier.size(14.dp), tint = MaterialTheme.colorScheme.primary)

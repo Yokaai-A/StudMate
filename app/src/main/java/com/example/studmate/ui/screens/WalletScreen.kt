@@ -96,7 +96,6 @@ fun WalletScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp),
         ) {
-            // Kartu Ringkasan Saldo
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
@@ -151,7 +150,6 @@ fun WalletScreen(
 
             Spacer(modifier = Modifier.height(18.dp))
 
-            // Form Pencairan Dana
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
@@ -162,7 +160,6 @@ fun WalletScreen(
                     Text("Tarik Saldo ke Rekening / E-Wallet", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold))
                     Spacer(modifier = Modifier.height(10.dp))
 
-                    // Dropdown Tujuan
                     ExposedDropdownMenuBox(
                         expanded = destDropdownExpanded,
                         onExpandedChange = { destDropdownExpanded = it },
@@ -249,7 +246,6 @@ fun WalletScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Riwayat Pencairan
             Text("Riwayat Pencairan Dana", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold))
             Spacer(modifier = Modifier.height(8.dp))
 

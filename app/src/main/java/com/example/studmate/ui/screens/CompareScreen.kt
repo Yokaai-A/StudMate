@@ -64,7 +64,6 @@ fun CompareScreen(
 ) {
     val comparedClasses by viewModel.comparedClasses.collectAsState()
 
-    // Jika mata kuliah yang dibandingkan memiliki nama yang sama, tampilkan nama tersebut di header
     val commonTitle = if (comparedClasses.isNotEmpty() && comparedClasses.all { it.cls.title == comparedClasses.first().cls.title }) {
         "Bandingkan Kelas: ${comparedClasses.first().cls.title}"
     } else {
@@ -139,9 +138,8 @@ fun CompareScreen(
                         .horizontalScroll(rememberScrollState())
                         .padding(12.dp)
                 ) {
-                    // Kolom Label Indikator Kriteria
                     Column(modifier = Modifier.width(labelColWidth)) {
-                        Spacer(modifier = Modifier.height(105.dp)) // tinggi header kartu
+                        Spacer(modifier = Modifier.height(105.dp))
                         CompareRowLabel("Tutor")
                         CompareRowLabel("Universitas")
                         CompareRowLabel("Nilai Matkul")
@@ -153,7 +151,6 @@ fun CompareScreen(
                         CompareRowLabel("Aksi")
                     }
 
-                    // Kolom Tiap Tutor / Kelas
                     comparedClasses.forEachIndexed { index, summary ->
                         val cls = summary.cls
                         val tutorLetter = ('A' + index).toString()
@@ -163,7 +160,6 @@ fun CompareScreen(
                                 .width(colWidth)
                                 .padding(horizontal = 6.dp)
                         ) {
-                            // Header Card (Tutor A / Tutor B)
                             Card(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -204,7 +200,6 @@ fun CompareScreen(
 
                             Spacer(modifier = Modifier.height(5.dp))
 
-                            // 1. Kriteria: Tutor
                             CompareCell {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Text(
@@ -220,7 +215,6 @@ fun CompareScreen(
                                 }
                             }
 
-                            // 2. Kriteria: Universitas
                             CompareCell {
                                 Text(
                                     text = cls.university,
@@ -230,7 +224,6 @@ fun CompareScreen(
                                 )
                             }
 
-                            // 3. Kriteria: Nilai Matkul (Academic Credibility Badge)
                             CompareCell {
                                 Surface(
                                     color = Color(0xFFEFF6FF),
@@ -258,7 +251,6 @@ fun CompareScreen(
                                 }
                             }
 
-                            // 4. Kriteria: Rating
                             CompareCell {
                                 if (summary.reviewCount > 0) {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -278,7 +270,6 @@ fun CompareScreen(
                                 }
                             }
 
-                            // 5. Kriteria: Metode
                             CompareCell {
                                 Text(
                                     text = cls.format.label,
@@ -286,7 +277,6 @@ fun CompareScreen(
                                 )
                             }
 
-                            // 6. Kriteria: Jadwal
                             CompareCell {
                                 Text(
                                     text = formatDayTime(cls.startAt),
@@ -296,7 +286,6 @@ fun CompareScreen(
                                 )
                             }
 
-                            // 7. Kriteria: Biaya
                             CompareCell {
                                 val effectivePrice = cls.priceAt(now)
                                 Text(
@@ -308,7 +297,6 @@ fun CompareScreen(
                                 )
                             }
 
-                            // 8. Topik Bahasan
                             CompareCell {
                                 Text(
                                     text = cls.topicSummary.ifBlank { cls.description },
@@ -318,7 +306,6 @@ fun CompareScreen(
                                 )
                             }
 
-                            // 9. Tombol Aksi: [ Pilih Tutor A ] / [ Pilih Tutor B ]
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()

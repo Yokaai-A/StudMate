@@ -115,7 +115,6 @@ fun ProfileScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp),
         ) {
-            // 1. Info Pengguna Card
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
@@ -172,7 +171,6 @@ fun ProfileScreen(
                         Text(currentUser!!.bio, style = MaterialTheme.typography.bodySmall)
                     }
 
-                    // Status Verifikasi Kampus
                     Spacer(modifier = Modifier.height(12.dp))
                     if (currentUser?.isVerified == true) {
                         Surface(
@@ -208,7 +206,6 @@ fun ProfileScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // 2. Dual-Role Switcher Card (One Account, Dual-Role System)
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
@@ -256,7 +253,6 @@ fun ProfileScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // 3. Pengaturan Tema Aplikasi
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
@@ -312,7 +308,6 @@ fun ProfileScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // 4. Quick Demo Switcher (Uji Coba Cepat Persona)
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
@@ -367,7 +362,6 @@ fun ProfileScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Tombol Logout
             OutlinedButton(
                 onClick = { profileViewModel.logout() },
                 modifier = Modifier.fillMaxWidth(),
@@ -381,7 +375,6 @@ fun ProfileScreen(
             Spacer(modifier = Modifier.height(40.dp))
         }
 
-        // Dialog Verifikasi Kampus (.ac.id / KTM)
         if (showVerificationDialog) {
             AlertDialog(
                 onDismissRequest = { showVerificationDialog = false },
@@ -424,7 +417,6 @@ fun ProfileScreen(
                         Divider()
                         Spacer(modifier = Modifier.height(10.dp))
 
-                        // Opsi simulasi unggah foto KTM
                         OutlinedButton(
                             onClick = {
                                 authViewModel.submitKtm("content://media/ktm_simulated.jpg")

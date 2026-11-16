@@ -53,7 +53,7 @@ class LearningRepository(
         }
     }
 
-    /** 1-Tap Enrollment: data peserta diambil langsung dari profil. */
+
     suspend fun enroll(classId: String, user: UserEntity): Result<EnrollmentEntity> = runCatching {
         db.withTransaction {
             val cls = classes.get(classId) ?: error("Kelas tidak ditemukan")
@@ -82,7 +82,7 @@ class LearningRepository(
         }
     }
 
-    /** Konfirmasi pembayaran dari payment gateway → dana masuk escrow (HELD). */
+
     suspend fun confirmPayment(enrollmentId: String, method: PaymentMethod): Result<EnrollmentEntity> = runCatching {
         val e = enrollments.get(enrollmentId) ?: error("Pendaftaran tidak ditemukan")
         if (e.status != EnrollmentStatus.PENDING_PAYMENT) return@runCatching e
@@ -124,7 +124,7 @@ class LearningRepository(
         if (refunded) notifier.notify(listOf(e.userId), "Dana dikembalikan", "Dana ${priceLabel(e.amount)} untuk ${cls?.title} dikembalikan dari escrow.", e.classId, "PAYMENT")
     }
 
-    /** Hanya peserta yang tercatat hadir minimal 1 sesi yang boleh memberi ulasan. */
+
     suspend fun submitReview(classId: String, userId: String, rating: Int, comment: String): Result<Unit> = runCatching {
         val e = enrollments.getFor(classId, userId) ?: error("Kamu belum terdaftar di kelas ini")
         require(enrollments.attendance(e.id).isNotEmpty()) { "Ulasan hanya untuk peserta yang terverifikasi hadir" }

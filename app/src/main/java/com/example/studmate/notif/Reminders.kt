@@ -17,7 +17,6 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.util.concurrent.TimeUnit
 
-/** Menjadwalkan pengingat otomatis H-1 dan 15 menit sebelum setiap sesi. */
 class ReminderScheduler(private val context: Context) {
     private val wm get() = WorkManager.getInstance(context)
 

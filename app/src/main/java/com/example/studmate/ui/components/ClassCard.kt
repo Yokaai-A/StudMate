@@ -70,7 +70,6 @@ fun ClassCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            // 1. Header: [Format Chip] ... ★ Rating ... [Bandingkan Toggle]
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -85,7 +84,6 @@ fun ClassCard(
                 }
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    // Rating
                     if (summary.reviewCount > 0) {
                         Icon(
                             imageVector = Icons.Default.Star,
@@ -104,7 +102,6 @@ fun ClassCard(
                         )
                     }
 
-                    // Compare Toggle Pill
                     if (onCompareToggle != null) {
                         Spacer(modifier = Modifier.width(10.dp))
                         Surface(
@@ -142,7 +139,6 @@ fun ClassCard(
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // 2. Headline: Nama Mata Kuliah murni (18sp, SemiBold, #0F172A)
             Text(
                 text = cls.title,
                 style = MaterialTheme.typography.titleLarge.copy(
@@ -156,7 +152,6 @@ fun ClassCard(
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            // 3. Subtitle: Nama Peer Tutor + Lencana Verifikasi + Nama Universitas (13sp, Medium, #475569)
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth(),
@@ -189,7 +184,6 @@ fun ClassCard(
 
             Spacer(modifier = Modifier.height(6.dp))
 
-            // 4. Topik Bahasan
             val topicText = cls.topicSummary.ifBlank { cls.description }
             Text(
                 text = "Topik: $topicText",
@@ -203,18 +197,15 @@ fun ClassCard(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // 5. Garis Pembatas Tipis (1dp)
             Divider(color = MaterialTheme.colorScheme.outlineVariant, thickness = 1.dp)
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // 6. Baris Info: Jadwal & Tarif per sesi
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                // Jadwal
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         imageVector = Icons.Default.Event,
@@ -233,7 +224,6 @@ fun ClassCard(
                     )
                 }
 
-                // Tarif
                 Row(verticalAlignment = Alignment.Bottom) {
                     Text(
                         text = if (effectivePrice <= 0) "Gratis" else "${rupiah(effectivePrice)}/sesi",
@@ -258,13 +248,11 @@ fun ClassCard(
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // 7. Footer: Sisa Kuota + Tombol [ Lihat Detail ]
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                // Sisa Kursi & Kuota Indicator
                 val enrolledRatio = if (cls.quota > 0) summary.enrolled.toFloat() / cls.quota else 0f
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
@@ -287,7 +275,6 @@ fun ClassCard(
                     )
                 }
 
-                // Tombol Lihat Detail
                 Button(
                     onClick = onClick,
                     shape = RoundedCornerShape(10.dp),

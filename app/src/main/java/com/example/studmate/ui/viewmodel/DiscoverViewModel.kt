@@ -40,7 +40,6 @@ class DiscoverViewModel(
     private val _compareList = MutableStateFlow<List<String>>(emptyList())
     val compareList: StateFlow<List<String>> = _compareList.asStateFlow()
 
-    // Rising mentors spotlight
     val risingMentors: StateFlow<List<MentorStats>> = catalogRepo.mentors
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
@@ -53,13 +52,11 @@ class DiscoverViewModel(
         val now = System.currentTimeMillis()
         classes.filter { summary ->
             val cls = summary.cls
-            // 1. National vs Local Campus Radar
             if (isLocal && user != null && user.university.isNotBlank()) {
                 val matchesUniversity = cls.university.equals(user.university, ignoreCase = true)
                 if (!matchesUniversity) return@filter false
             }
 
-            // 2. Query text (judul, deskripsi, organizer, tags)
             if (filter.query.isNotBlank()) {
                 val q = filter.query.trim().lowercase()
                 val match = cls.title.lowercase().contains(q) ||
@@ -70,16 +67,12 @@ class DiscoverViewModel(
                 if (!match) return@filter false
             }
 
-            // 3. Kategori
             if (filter.categories.isNotEmpty() && cls.category !in filter.categories) return@filter false
 
-            // 4. Format
             if (filter.formats.isNotEmpty() && cls.format !in filter.formats) return@filter false
 
-            // 5. Tipe Program
             if (filter.types.isNotEmpty() && cls.programType !in filter.types) return@filter false
 
-            // 6. Harga
             val price = cls.priceAt(now)
             when (filter.price) {
                 PriceFilter.ALL -> {}
@@ -90,7 +83,6 @@ class DiscoverViewModel(
 
             true
         }.let { list ->
-            // Sorting
             when (filter.sort) {
                 SortOption.RELEVANT -> list.sortedByDescending { it.rating * 10 + it.enrolled }
                 SortOption.SOONEST -> list.sortedBy { if (it.cls.startAt > 0) it.cls.startAt else Long.MAX_VALUE }

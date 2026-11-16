@@ -47,10 +47,10 @@ data class UserEntity(
 data class ClassEntity(
     @PrimaryKey val id: String,
     val organizerId: String,
-    val title: String, // Nama Mata Kuliah murni
+    val title: String,
     val description: String,
-    val topicSummary: String = "", // Pokok Bahasan / Topik
-    val courseGrade: String = "A", // Bukti penguasaan nilai (A / A-)
+    val topicSummary: String = "",
+    val courseGrade: String = "A",
     val category: Category,
     val programType: ProgramType,
     val format: ClassFormat,
@@ -191,7 +191,6 @@ data class NotificationEntity(
     val isRead: Boolean = false,
 )
 
-/* ---------- Hasil query agregat ---------- */
 data class ClassCount(val classId: String, val count: Int)
 data class ClassRating(val classId: String, val avg: Double, val cnt: Int)
 data class SessionAgg(val classId: String, val cnt: Int, val minutes: Int)

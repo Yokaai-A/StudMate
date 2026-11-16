@@ -77,7 +77,6 @@ fun AttendanceScannerScreen(
 
     var manualTicketInput by remember { mutableStateOf("") }
 
-    // ZXing QR Code Scanner Launcher
     val qrScannerLauncher = rememberLauncherForActivityResult(
         contract = ScanContract(),
     ) { result ->
@@ -105,7 +104,6 @@ fun AttendanceScannerScreen(
                 .padding(padding)
                 .padding(16.dp),
         ) {
-            // Pemilihan Sesi
             Text("Pilih Sesi yang Sedang Berlangsung:", style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold))
             Spacer(modifier = Modifier.height(6.dp))
 
@@ -142,7 +140,6 @@ fun AttendanceScannerScreen(
 
             Spacer(modifier = Modifier.height(14.dp))
 
-            // Tombol Kamera QR Scanner & Input Manual
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(14.dp),
@@ -197,7 +194,6 @@ fun AttendanceScannerScreen(
                         }
                     }
 
-                    // Notifikasi Hasil Presensi
                     if (uiState.checkInResult != null) {
                         Spacer(modifier = Modifier.height(8.dp))
                         Surface(
@@ -229,7 +225,6 @@ fun AttendanceScannerScreen(
 
             Spacer(modifier = Modifier.height(14.dp))
 
-            // Selesaikan Sesi Toggle
             if (currentSession != null) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -246,7 +241,6 @@ fun AttendanceScannerScreen(
 
             Divider(modifier = Modifier.padding(vertical = 10.dp))
 
-            // Daftar Peserta Terdaftar
             Text(
                 text = "Daftar Peserta Terdaftar (${attendees.size})",
                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),

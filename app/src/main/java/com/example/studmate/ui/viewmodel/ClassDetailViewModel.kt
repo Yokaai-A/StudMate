@@ -59,7 +59,7 @@ class ClassDetailViewModel(
     private val _uiState = MutableStateFlow(ClassDetailUiState())
     val uiState: StateFlow<ClassDetailUiState> = _uiState.asStateFlow()
 
-    /** 1-Tap Enrollment */
+
     fun enroll() = viewModelScope.launch {
         val user = currentUser.value ?: run {
             _uiState.value = _uiState.value.copy(error = "Silakan login terlebih dahulu")
@@ -80,7 +80,7 @@ class ClassDetailViewModel(
         )
     }
 
-    /** Bayar kelas (Simulasi Payment Gateway Escrow) */
+
     fun pay(method: PaymentMethod) = viewModelScope.launch {
         val e = _uiState.value.pendingEnrollment ?: enrollment.value ?: return@launch
         _uiState.value = _uiState.value.copy(isEnrolling = true, error = null)
@@ -98,7 +98,7 @@ class ClassDetailViewModel(
         )
     }
 
-    /** Buat Promo Poster Card dan buka Android Share Sheet */
+
     fun sharePromoCard(context: Context) {
         val s = summary.value ?: return
         val cls = s.cls

@@ -17,7 +17,6 @@ data class AppSettings(
     val dynamicColor: Boolean = false,
 )
 
-/** Penyimpanan sesi & preferensi ringan (Jetpack DataStore). */
 class SessionStore(private val context: Context) {
     private object Keys {
         val userId = stringPreferencesKey("current_user_id")

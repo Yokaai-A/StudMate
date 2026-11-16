@@ -111,7 +111,6 @@ fun OnboardingScreen(
             modifier = Modifier.fillMaxWidth(),
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
-                // Dropdown Universitas
                 Text(
                     text = "Asal Universitas",
                     style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
@@ -148,7 +147,6 @@ fun OnboardingScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Dropdown Fakultas
                 Text(
                     text = "Fakultas",
                     style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
@@ -185,7 +183,6 @@ fun OnboardingScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Dropdown Program Studi
                 Text(
                     text = "Program Studi / Jurusan",
                     style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
@@ -222,7 +219,6 @@ fun OnboardingScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Semester Aktif
                 Text(
                     text = "Semester Saat Ini",
                     style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
@@ -245,7 +241,6 @@ fun OnboardingScreen(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // Pemilihan Minat Belajar
         Card(
             shape = RoundedCornerShape(16.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),

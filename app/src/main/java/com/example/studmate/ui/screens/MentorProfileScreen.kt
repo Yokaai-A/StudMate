@@ -87,7 +87,6 @@ fun MentorProfileScreen(
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
-                // Header Profil Tutor
                 item {
                     Card(
                         modifier = Modifier.fillMaxWidth(),
@@ -162,7 +161,6 @@ fun MentorProfileScreen(
 
                             Spacer(modifier = Modifier.height(16.dp))
 
-                            // Statistik Mengajar
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceAround,
@@ -188,7 +186,6 @@ fun MentorProfileScreen(
                     }
                 }
 
-                // Daftar Kelas yang Diajar
                 item {
                     Text(
                         text = "Kelas yang Diajarkan (${classes.size})",

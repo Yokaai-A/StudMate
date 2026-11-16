@@ -47,7 +47,7 @@ class AuthViewModel(
         )
     }
 
-    /** Simulasi login cepat / Google Sign-In */
+
     fun signInGoogleSimulated(email: String = "mahasiswa.baru@ui.ac.id", name: String = "Mahasiswa Demo") = viewModelScope.launch {
         _uiState.value = _uiState.value.copy(isLoading = true, error = null)
         authRepo.signInWithGoogle(email, name, null).fold(
@@ -56,7 +56,7 @@ class AuthViewModel(
         )
     }
 
-    /** Switch instan antar akun demo untuk kemudahan pengujian fitur */
+
     fun switchDemoUser(userId: String) = viewModelScope.launch {
         session.setCurrentUser(userId)
     }

@@ -29,7 +29,6 @@ fun formatTime(millis: Long): String = Instant.ofEpochMilli(millis).atZone(zone)
 fun formatDateTime(millis: Long): String = "${formatDate(millis)} • ${formatTime(millis)} WIB"
 fun formatDayTime(millis: Long): String = if (millis <= 0) "Jadwal fleksibel" else "${Instant.ofEpochMilli(millis).atZone(zone).format(dayTimeFmt)} WIB"
 
-
 fun localDate(millis: Long): LocalDate = Instant.ofEpochMilli(millis).atZone(zone).toLocalDate()
 
 fun durationLabel(minutes: Int): String {

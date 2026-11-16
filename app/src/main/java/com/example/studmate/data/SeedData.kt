@@ -40,7 +40,6 @@ object SeedData {
 
         val now = System.currentTimeMillis()
 
-        // 1. Users
         val learner = UserEntity(
             id = DEMO_LEARNER_ID,
             name = "Rian Pratama",
@@ -185,10 +184,8 @@ object SeedData {
         val users = listOf(learner, tutorRaka, tutorNadya, tutorDimas, tutorSarah, tutorAhmad, orgUI)
         db.userDao().upsertAll(users)
 
-        // Org Admins
         db.walletDao().upsertAdmin(OrgAdminEntity("admin-1", DEMO_ORG_UI_ID, "panitia.bem@ui.ac.id", now - 50 * DAY))
 
-        // 2. Classes (Wajib Nama Mata Kuliah Murni sesuai Strict Course Naming Policy)
         val classStrukdatRaka = ClassEntity(
             id = "cls-strukdat-raka",
             organizerId = DEMO_TUTOR_RAKA_ID,
@@ -211,7 +208,7 @@ object SeedData {
             benefits = listOf("Rangkuman Materi PDF", "Latihan Soal & Pembahasan Coding", "Sesi Diskusi Tatap Muka"),
             status = ClassStatus.PUBLISHED,
             createdAt = now - 10 * DAY,
-            startAt = now + 3 * DAY + 2 * HOUR, // Rab, 18 Nov • 16.00 WIB
+            startAt = now + 3 * DAY + 2 * HOUR,
             endAt = now + 14 * DAY,
         )
 
@@ -239,7 +236,7 @@ object SeedData {
             benefits = listOf("Ringkasan Rumus Sakti PDF", "Rekaman Sesi Google Meet", "Review Tugas Mandiri"),
             status = ClassStatus.PUBLISHED,
             createdAt = now - 12 * DAY,
-            startAt = now + 4 * DAY + 5 * HOUR + 30 * 60 * 1000L, // Kam, 19 Nov • 19.30 WIB
+            startAt = now + 4 * DAY + 5 * HOUR + 30 * 60 * 1000L,
             endAt = now + 12 * DAY,
         )
 
@@ -265,7 +262,7 @@ object SeedData {
             benefits = listOf("Source Code Lengkap", "Sesi Q&A Live", "E-Sertifikat"),
             status = ClassStatus.PUBLISHED,
             createdAt = now - 6 * DAY,
-            startAt = now + 5 * DAY + 5 * HOUR, // Jum, 19.00 WIB
+            startAt = now + 5 * DAY + 5 * HOUR,
             endAt = now + 15 * DAY,
         )
 
@@ -310,7 +307,7 @@ object SeedData {
             university = "Universitas Gadjah Mada",
             location = "Gd. Kuliah Bersama R.302, Kampus UGM Yogyakarta",
             meetingLink = "",
-            price = 0, // GRATIS
+            price = 0,
             quota = 35,
             hasCertificate = false,
             minAttendancePercent = 50,
@@ -369,7 +366,7 @@ object SeedData {
             benefits = listOf("Bank Soal Pemrograman", "Sertifikat", "Live Coding Review"),
             status = ClassStatus.PUBLISHED,
             createdAt = now - 20 * DAY,
-            startAt = now - 10 * DAY, // Sudah selesai untuk demo review & sertifikat
+            startAt = now - 10 * DAY,
             endAt = now - 2 * DAY,
         )
 
@@ -384,7 +381,6 @@ object SeedData {
         )
         db.classDao().upsertAll(classes)
 
-        // 3. Sessions
         val sessionsStrukdatRaka = listOf(
             SessionEntity("sr-1", classStrukdatRaka.id, 1, "Pengantar Pointer & Linked List", "Review implementasi memori dinamis dan linked list.", now + 3 * DAY + 2 * HOUR, 90, false),
             SessionEntity("sr-2", classStrukdatRaka.id, 2, "Binary Search Tree & Balancing", "Konsep AVL Tree dan Red-Black Tree.", now + 7 * DAY + 2 * HOUR, 90, false),
@@ -415,8 +411,6 @@ object SeedData {
 
         db.classDao().upsertSessions(sessionsStrukdatRaka + sessionsKalkulusNadya + sessionsStrukdatDimas + sessionsStatistikaSarah + sessionsAlgoritmaRaka)
 
-        // 4. Enrollments untuk demo learner (Rian Pratama)
-        // 17 terdaftar di Struktur Data Raka (Rian adalah peserta ke-17, sisa 3 kursi!)
         val enrollStrukdat = EnrollmentEntity(
             id = "enr-strukdat-rian",
             classId = classStrukdatRaka.id,
@@ -424,14 +418,13 @@ object SeedData {
             status = EnrollmentStatus.ACTIVE,
             amount = 25_000,
             paymentMethod = PaymentMethod.QRIS.name,
-            paymentStatus = PaymentStatus.HELD, // Aman di Escrow
+            paymentStatus = PaymentStatus.HELD,
             paymentRef = "PAY-QRIS-99281A",
             ticketCode = "SM-STRUK01",
             createdAt = now - 3 * DAY,
             paidAt = now - 3 * DAY,
         )
 
-        // 20 terdaftar di Kalkulus Nadya (Rian terdaftar, sisa 5 kursi!)
         val enrollKalkulus = EnrollmentEntity(
             id = "enr-kalkulus-rian",
             classId = classKalkulusNadya.id,
@@ -446,7 +439,6 @@ object SeedData {
             paidAt = now - 2 * DAY,
         )
 
-        // Kelas selesai untuk sertifikat: Algoritma dan Pemrograman
         val enrollAlgoritma = EnrollmentEntity(
             id = "enr-algoritma-rian",
             classId = classAlgoritmaRaka.id,
@@ -463,8 +455,6 @@ object SeedData {
             certificateIssuedAt = now - 2 * DAY,
         )
 
-        // Tambah dummy enrollments agar quota match wireframe:
-        // Struktur Data Raka: kuota 20, terdaftar 17 -> sisa 3 kursi
         val dummyEnrollments = mutableListOf(enrollStrukdat, enrollKalkulus, enrollAlgoritma)
         for (i in 1..16) {
             dummyEnrollments.add(
@@ -479,7 +469,6 @@ object SeedData {
                 )
             )
         }
-        // Kalkulus Nadya: kuota 25, terdaftar 20 -> sisa 5 kursi
         for (i in 1..19) {
             dummyEnrollments.add(
                 EnrollmentEntity(
@@ -493,7 +482,6 @@ object SeedData {
                 )
             )
         }
-        // Struktur Data Dimas: kuota 30, terdaftar 22 -> sisa 8 kursi
         for (i in 1..22) {
             dummyEnrollments.add(
                 EnrollmentEntity(
@@ -509,7 +497,6 @@ object SeedData {
         }
         db.enrollmentDao().upsertAll(dummyEnrollments)
 
-        // Kehadiran demo learner di kelas algoritma (hadir 2/2 sesi)
         db.enrollmentDao().insertAttendanceAll(
             listOf(
                 AttendanceEntity(enrollAlgoritma.id, "sa-1", now - 9 * DAY, "QR"),
@@ -517,14 +504,12 @@ object SeedData {
             )
         )
 
-        // 5. Reviews
         val reviews = mutableListOf(
             ReviewEntity("rev-1", classAlgoritmaRaka.id, DEMO_LEARNER_ID, 5, "Penjelasan Kak Raka sangat sistematis, rekursi yang awalnya membingungkan jadi sangat masuk akal!", now - 2 * DAY),
             ReviewEntity("rev-2", classStrukdatRaka.id, "dummy-user-1", 5, "Asisten dosen terbaik! Sangat sabar membedah struktur tree dan simulasi trace code.", now - 4 * DAY),
             ReviewEntity("rev-3", classKalkulusNadya.id, "dummy-user-k-1", 5, "Kak Nadya jago banget visualisasi grafik fungsi dan trik cepat integral substitusi.", now - 3 * DAY),
             ReviewEntity("rev-4", classStrukdatDimas.id, "dummy-user-d-1", 5, "Penjelasan BST dan graph traversal Kak Dimas sangat detail dan runtut.", now - 5 * DAY),
         )
-        // Tambahkan reviews agar reviewCount match wireframe (24 ulasan untuk Struktur Data Raka, 19 ulasan untuk Kalkulus Nadya, 12 untuk Dimas)
         for (i in 2..24) {
             reviews.add(ReviewEntity("rev-sd-$i", classStrukdatRaka.id, "dummy-user-$i", if (i % 5 == 0) 4 else 5, "Materinya sangat relevan dengan soal UTS/UAS kampus.", now - (i * DAY / 2)))
         }
@@ -536,7 +521,6 @@ object SeedData {
         }
         db.communityDao().upsertReviews(reviews)
 
-        // 6. Materials
         val materials = listOf(
             MaterialEntity("mat-1", classStrukdatRaka.id, "Slide Modul 1: Pointer & Memory Allocation", MaterialType.SLIDE, "https://docs.google.com/presentation/studmate-strukdat-1", now - 2 * DAY),
             MaterialEntity("mat-2", classStrukdatRaka.id, "Rangkuman Pohon Biner & AVL Tree PDF", MaterialType.PDF, "https://studmate.app/docs/avl-tree-cheatsheet.pdf", now - 1 * DAY),
@@ -545,21 +529,18 @@ object SeedData {
         )
         materials.forEach { db.communityDao().upsertMaterial(it) }
 
-        // 7. Forum Posts (Q&A)
         val posts = listOf(
             ForumPostEntity("post-1", classStrukdatRaka.id, DEMO_LEARNER_ID, null, "Kak Raka, apakah di sesi 2 nanti akan dibahas perbedaan Red-Black Tree dengan AVL Tree?", now - 2 * DAY),
             ForumPostEntity("post-2", classStrukdatRaka.id, DEMO_TUTOR_RAKA_ID, "post-1", "Halo Rian! Betul, kita akan bahas trade-off rotasi AVL vs Red-Black Tree ya.", now - 1 * DAY),
         )
         db.communityDao().upsertPosts(posts)
 
-        // 8. Announcements
         val announcements = listOf(
             AnnouncementEntity("ann-1", classStrukdatRaka.id, "Ruangan Praktikum Sesi 1", "Sesi pertama hari Rabu akan diadakan di Lab Komputer Gedung B Ruang 204. Harap bawa laptop masing-masing.", now - 1 * DAY),
             AnnouncementEntity("ann-2", classAlgoritmaRaka.id, "Sertifikat Kelulusan Siap Diunduh", "Selamat untuk seluruh peserta yang menyelesaikan sesi! E-Sertifikat resmi sudah terbit di tab Kelasku.", now - 2 * DAY),
         )
         announcements.forEach { db.communityDao().upsertAnnouncement(it) }
 
-        // 9. Notifications Inbox
         val notifs = listOf(
             com.example.studmate.data.local.NotificationEntity("notif-1", DEMO_LEARNER_ID, "Pendaftaran Berhasil 🎉", "Kamu terdaftar di mata kuliah Struktur Data bersama Raka Pratama. Pembayaran Rp 25.000 diamankan escrow StudMate.", classStrukdatRaka.id, "ENROLL", now - 3 * DAY, isRead = false),
             com.example.studmate.data.local.NotificationEntity("notif-2", DEMO_LEARNER_ID, "Pengingat Jadwal Kelas ⏰", "Kelas Struktur Data dimulai dalam 2 hari (Rab, 18 Nov • 16.00 WIB) di Lab Komputer Fasilkom UI.", classStrukdatRaka.id, "REMINDER", now - 1 * DAY, isRead = false),
@@ -567,7 +548,6 @@ object SeedData {
         )
         db.communityDao().upsertNotifications(notifs)
 
-        // 10. Payout record untuk demo wallet
         db.walletDao().upsertPayout(
             PayoutEntity("pay-1", DEMO_TUTOR_RAKA_ID, 250_000, "BCA", "0128391823", "SUCCESS", now - 10 * DAY)
         )

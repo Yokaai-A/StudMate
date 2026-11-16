@@ -26,7 +26,6 @@ enum class ClassStatus { DRAFT, PUBLISHED, COMPLETED, CANCELLED }
 
 enum class EnrollmentStatus { PENDING_PAYMENT, ACTIVE, COMPLETED, CANCELLED }
 
-/** Status dana pendaftaran dalam sistem escrow (rekening bersama). */
 enum class PaymentStatus(val label: String) {
     FREE("Gratis"),
     UNPAID("Menunggu Pembayaran"),
@@ -66,7 +65,7 @@ enum class SortOption(val label: String) {
 enum class ThemeMode(val label: String) { SYSTEM("Ikuti Sistem"), LIGHT("Terang"), DARK("Gelap") }
 
 object AppConfig {
-    /** Potongan biaya layanan platform dari tiket berbayar. */
+
     const val PLATFORM_FEE_PERCENT = 5
     const val DEEP_LINK_HOST = "studmate.app"
     const val MAX_COMPARE = 3

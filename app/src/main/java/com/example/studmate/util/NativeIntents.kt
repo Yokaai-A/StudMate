@@ -29,7 +29,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.net.URLEncoder
 
-/** Integrasi native Android: Share Sheet, Calendar, Maps, browser, LinkedIn. */
 object NativeIntents {
 
     fun openUrl(context: Context, url: String) {
@@ -41,85 +40,7 @@ object NativeIntents {
         val u = uri.toUri()
         if (u.scheme == "content") {
             val intent = Intent(Intent.ACTION_VIEW).apply {
-                setDataAndType(u, context.contentResolver.getType(u) ?: "*/*")
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            }
-            safeStart(context, intent)
-        } else openUrl(context, uri)
-    }
-
-    fun openMaps(context: Context, query: String) {
-        val uri = "geo:0,0?q=${Uri.encode(query)}".toUri()
-        val intent = Intent(Intent.ACTION_VIEW, uri)
-        try {
-            context.startActivity(intent)
-        } catch (_: ActivityNotFoundException) {
-            openUrl(context, "https://www.google.com/maps/search/?api=1&query=${Uri.encode(query)}")
-        }
-    }
-
-    fun addToCalendar(context: Context, cls: ClassEntity, session: SessionEntity) {
-        val location = if (cls.format == ClassFormat.ONLINE) cls.meetingLink else "${cls.location}, ${cls.university}"
-        val intent = Intent(Intent.ACTION_INSERT).apply {
-            data = CalendarContract.Events.CONTENT_URI
-            putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, session.startAt)
-            putExtra(CalendarContract.EXTRA_EVENT_END_TIME, session.startAt + session.durationMinutes * 60_000L)
-            putExtra(CalendarContract.Events.TITLE, "[StudMate] ${cls.title} — ${session.title}")
-            putExtra(CalendarContract.Events.DESCRIPTION, "${session.description}\n\n${AppConfig.classLink(cls.id)}")
-            putExtra(CalendarContract.Events.EVENT_LOCATION, location)
-        }
-        safeStart(context, intent)
-    }
-
-    fun shareText(context: Context, text: String) {
-        val send = Intent(Intent.ACTION_SEND).apply {
-            type = "text/plain"
-            putExtra(Intent.EXTRA_TEXT, text)
-        }
-        safeStart(context, Intent.createChooser(send, "Bagikan via"))
-    }
-
-    fun shareFile(context: Context, file: File, mime: String, text: String) {
-        val uri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
-        val send = Intent(Intent.ACTION_SEND).apply {
-            type = mime
-            putExtra(Intent.EXTRA_STREAM, uri)
-            putExtra(Intent.EXTRA_TEXT, text)
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        }
-        safeStart(context, Intent.createChooser(send, "Bagikan via"))
-    }
-
-    fun viewFile(context: Context, file: File, mime: String) {
-        val uri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            setDataAndType(uri, mime)
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        }
-        safeStart(context, intent)
-    }
-
-    fun linkedInCertificateUrl(certName: String, certId: String, issuedAt: Long): String {
-        val d = localDate(issuedAt)
-        fun enc(s: String) = URLEncoder.encode(s, "UTF-8")
-        return "https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME" +
-            "&name=${enc(certName)}&organizationName=${enc("StudMate")}" +
-            "&issueYear=${d.year}&issueMonth=${d.monthValue}" +
-            "&certId=${enc(certId)}&certUrl=${enc("https://${AppConfig.DEEP_LINK_HOST}/cert/$certId")}"
-    }
-
-    private fun safeStart(context: Context, intent: Intent) {
-        try {
-            if (context !is android.app.Activity) intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            context.startActivity(intent)
-        } catch (_: ActivityNotFoundException) {
-            Toast.makeText(context, "Tidak ada aplikasi yang dapat membuka ini", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun shareDir(context: Context) = File(context.cacheDir, "share").apply { mkdirs() }
-
-    /* ------------------------- Auto-Promo Card ------------------------- */
+                setDataAndType(u, context.contentResolver.getType(u) ?: "*
 
     data class PromoInfo(
         val classId: String,
@@ -166,7 +87,6 @@ object NativeIntents {
             c.drawText(it, 80f, y, body); y += 70f
         }
 
-        // panel bawah
         val panel = RectF(60f, h - 400f, w - 60f, h - 60f)
         c.drawRoundRect(panel, 48f, 48f, white)
         val qr = QrUtils.bitmap(AppConfig.classLink(info.classId), 280)
@@ -197,7 +117,7 @@ object NativeIntents {
         else -> Color.rgb(180, 83, 9) to Color.rgb(234, 179, 8)
     }
 
-    /* ------------------------- E-Certificate PDF ------------------------- */
+
 
     data class CertificateInfo(
         val certificateId: String,
@@ -211,7 +131,7 @@ object NativeIntents {
 
     fun buildCertificatePdf(context: Context, info: CertificateInfo): File {
         val w = 842
-        val h = 595 // A4 landscape (pt)
+        val h = 595
         val doc = PdfDocument()
         val page = doc.startPage(PdfDocument.PageInfo.Builder(w, h, 1).create())
         val c = page.canvas

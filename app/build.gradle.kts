@@ -24,8 +24,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // Web client ID OAuth Google untuk Google Sign-In (Credential Manager).
-        // Isi di local.properties: GOOGLE_WEB_CLIENT_ID=xxxx.apps.googleusercontent.com
         buildConfigField(
             "String",
             "GOOGLE_WEB_CLIENT_ID",

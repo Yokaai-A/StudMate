@@ -62,7 +62,6 @@ fun FilterBottomSheet(
                 .padding(horizontal = 20.dp, vertical = 8.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            // Header
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -79,7 +78,6 @@ fun FilterBottomSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Urutkan
             SectionTitle("Urutkan Berdasarkan")
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -96,7 +94,6 @@ fun FilterBottomSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Format Kelas
             SectionTitle("Format Kelas")
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -118,7 +115,6 @@ fun FilterBottomSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Kategori
             SectionTitle("Kategori Bidang")
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -140,7 +136,6 @@ fun FilterBottomSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Tipe Program
             SectionTitle("Tipe Program")
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -162,7 +157,6 @@ fun FilterBottomSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Harga
             SectionTitle("Biaya & Harga")
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 PriceFilter.entries.forEach { p ->
@@ -195,7 +189,6 @@ fun FilterBottomSheet(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Tombol Reset & Terapkan
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
